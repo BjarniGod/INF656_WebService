@@ -11,7 +11,7 @@ const getAllEmployees = async (req, res) => {
 }
 
 const addEmployee = async (req, res) => {
-  if(!req.body.firstName || !req.body.lastName) {
+  if(!req.body.firstName || !req.body.lastName || !req.body.username || !req.body.password) {
     return res.status(400).json({
       message: "First and last names are required"
     });
@@ -21,6 +21,8 @@ const addEmployee = async (req, res) => {
     const result = await Employee.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      username: req.body.username,
+      password: req.body.password,
     });
     res.status(201).json(result);
   } catch (error) {
@@ -87,6 +89,8 @@ const updateEmployee = async (req, res) => {
 
   if(req.body.firstName) employee.firstName = req.body.firstName;
   if(req.body.lastName) employee.lastName = req.body.lastName;
+  if(req.body.username) employee.username = req.body.username;
+  if(req.body.password) employee.password = req.body.password;
 
   const result = await employee.save();
   res.json(result);

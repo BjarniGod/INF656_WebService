@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 const menu_itemRouter = require("./routes/menu_item");
 const employeeRouter = require("./routes/employee");
+const orderRouter = require("./routes/orders");
 
 connectDB();
 
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 // API Route
 app.use("/menu_items", menu_itemRouter);
 app.use("/employees", employeeRouter);
+app.use("/orders", orderRouter);
 
 
 /* Error handler middleware */

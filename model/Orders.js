@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const employeeSchema = new Schema({
+const orderSchema = new Schema({
     firstName: {
         type: String,
         required: true,
@@ -10,14 +10,14 @@ const employeeSchema = new Schema({
         type: String,
         required: false,
     },
-    username: {
+    email: {
         type: String,
-        required: false,
+        required: true,
     },
-    password: {
-        type: String,
+    menuItems: {
+        type: Array,
         required: false,
-    },
+    }
 });
 
-module.exports = mongoose.model("Employee", employeeSchema, 'employees');
+module.exports = mongoose.model("Orders", orderSchema, 'orders');

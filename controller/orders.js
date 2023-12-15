@@ -1,30 +1,28 @@
-const MenuItem = require("../model/MenuItem");
+const Order = require("../model/Orders");
 
-const getAllMenuItems = async (req, res) => {
-  const result = await MenuItem.find();
+const getAllOrders = async (req, res) => {
+  const result = await Order.find();
   if(!result) {
     return res.status(400).json({
-      message: "No menu items found."
+      message: "No orders found."
     })
   }
   res.json(result);
 }
 
-const addMenuItem = async (req, res) => {
-  if(!req.body.itemName || !req.body.price) {
+const addOrder = async (req, res) => {
+  if(!req.body.firstName || !req.body.email) {
     return res.status(400).json({
-      message: "Item name and price are required"
+      message: "First name is required"
     });
   }
 
   try {
-    const result = await MenuItem.create({
-      itemName: req.body.itemName,
-      description: req.body.description,
-      price: req.body.price,
-      itemImage: req.body.itemImage,
-      category: req.body.category,
-      calories: req.body.calories
+    const result = await Order.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      menuItems: req.body.menuItems,
     });
     res.status(201).json(result);
   } catch (error) {
@@ -32,78 +30,76 @@ const addMenuItem = async (req, res) => {
   }
 }
 
-const deleteMenuItem = async (req, res) => {
+const deleteOrder = async (req, res) => {
   if(!req.body.id) {
     return res.status(400).json({
       message: "ID parameter is required"
     });
   }
-  const menuItem = await MenuItem.findOne({
+  const order = await Order.findOne({
     _id: req.body.id
   });
 
-  if(!menuItem) {
+  if(!order) {
     return res.status(400).json({
-      message: `Menu Item ${req.body.id} is not found`
+      message: `Order id: ${req.body.id} is not found`
     });
   }
 
-  const result = menuItem.deleteOne({
+  const result = order.deleteOne({
     _id: req.body.id
   });
   res.json(result);
 }
 
-const getMenuItem = async (req, res) => {
+const getOrder = async (req, res) => {
   if(!req.params.id){
     return res.status(400).json({
-      message: 'Menu Item ID is required'
+      message: 'Order ID is required'
     });
   }
-  const menuItem = await MenuItem.findOne({
+  const order = await Order.findOne({
     _id: req.params.id
   });
-  if(!menuItem) {
+  if(!order) {
     return res.status(400).json({
-      message: `No menu item with id: ${req.params.id}`
+      message: `No order with id: ${req.params.id}`
     });
   }
-  res.json(menuItem);
+  res.json(order);
 }
 
-const updateMenuItem = async (req, res) => {
+const updateOrder = async (req, res) => {
   if(!req.body.id) {
     return res.status(400).json({
       message: "ID parameter is required"
     });
   }
 
-  const menuItem = await MenuItem.findOne({
+  const order = await Order.findOne({
     _id: req.body.id
   });
 
-  if(!menuItem) {
+  if(!order) {
     return res.status(400).json({
-      message: `Menu Item ${req.body.id} is not found.`
+      message: `Order ${req.body.id} is not found.`
     });
   }
 
-  if(req.body.itemName) menuItem.itemName = req.body.itemName;
-  if(req.body.description) menuItem.description = req.body.description;
-  if(req.body.price) menuItem.price = req.body.price;
-  if(req.body.itemImage) menuItem.itemImage = req.body.itemImage;
-  if(req.body.category) menuItem.category = req.body.category;
-  if(req.body.calories) menuItem.calories = req.body.calories;
+  if(req.body.firstName) order.firstName = req.body.firstName;
+  if(req.body.lastName) order.lastName = req.body.lastName;
+  if(req.body.email) order.email = req.body.email;
+  if(req.body.menuItems) order.menuItems = req.body.menuItems;
 
-  const result = await menuItem.save();
+  const result = await order.save();
   res.json(result);
 }
 
 
 module.exports = {
-  getAllMenuItems,
-  addMenuItem,
-  deleteMenuItem,
-  getMenuItem,
-  updateMenuItem,
+  getAllOrders,
+  addOrder,
+  deleteOrder,
+  getOrder,
+  updateOrder,
 };
