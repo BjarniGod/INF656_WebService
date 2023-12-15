@@ -48,9 +48,9 @@ const deleteMenuItem = async (req, res) => {
     });
   }
 
-  const result = menuItem.deleteOne({
+  const result = MenuItem.deleteOne({
     _id: req.body.id
-  });
+  }).exec();
   res.json(result);
 }
 

@@ -43,10 +43,10 @@ const deleteEmployee = async (req, res) => {
       message: `Employee ${req.body.id} is not found`
     });
   }
-
-  const result = employee.deleteOne({
+  // console.log(req.body.id);
+  const result = Employee.deleteOne({
     _id: req.body.id
-  });
+  }).exec();
   res.json(result);
 }
 
